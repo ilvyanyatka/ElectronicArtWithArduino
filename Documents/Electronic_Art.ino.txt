@@ -1,0 +1,65 @@
+#include <Sharer.h>
+
+#define CLEAR_PIN 3           // the number of the clear pushbutton pin
+#define LINE_TYPE_PIN A3
+#define STOP_PIN A2
+#define LINE_WIDTH_PIN A4
+#define ANGLE_PIN A5
+//#define DEBUG
+
+
+// variables will change:
+int ClearButtonState = 0;         
+int LineTypeButtonState = 0;         
+int ExecButtonState = 0;         
+int LineWidthValue = 0;         
+int AngleValue = 0;         
+
+void setup() {
+  Sharer.init(115200); // Init Serial communication with 115200 bauds
+  
+  #ifdef DEBUG
+  Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
+  #endif
+  
+  // Share variables for read/write from desktop application
+  Sharer_ShareVariable(int, ClearButtonState);
+  Sharer_ShareVariable(int, LineTypeButtonState);
+  Sharer_ShareVariable(int, ExecButtonState);
+  Sharer_ShareVariable(int, LineWidthValue);
+  Sharer_ShareVariable(int, AngleValue);
+
+  analogReference(DEFAULT);
+  pinMode(CLEAR_PIN, INPUT_PULLUP);
+  pinMode(LINE_TYPE_PIN, INPUT_PULLUP);
+  pinMode(STOP_PIN, INPUT_PULLUP);
+  pinMode(LINE_WIDTH_PIN, INPUT);
+  pinMode(ANGLE_PIN, INPUT);
+}
+
+void loop() {
+  Sharer.run();
+  
+  // read the state of the pushbutton value:
+  ClearButtonState = digitalRead(CLEAR_PIN);
+  LineTypeButtonState = digitalRead(LINE_TYPE_PIN);
+  ExecButtonState = digitalRead(STOP_PIN);
+  LineWidthValue = analogRead(LINE_WIDTH_PIN);
+  AngleValue = analogRead(ANGLE_PIN);
+  LineWidthValue = map(LineWidthValue, 0, 1023, 3, 20);
+  AngleValue = map(AngleValue, 1, 1023, 30, 178);
+  
+  #ifdef DEBUG
+  Serial.print("ClearButtonState ");
+  Serial.println(ClearButtonState);
+  Serial.print("LineTypeButtonState ");
+  Serial.println(LineTypeButtonState);
+  Serial.print("ExecButtonState ");
+  Serial.println(ExecButtonState);
+  Serial.print("LineWidthValue ");
+  Serial.println(LineWidthValue);
+  Serial.print("AngleValue ");
+  Serial.println(AngleValue);
+  delay(2500);
+  #endif
+}

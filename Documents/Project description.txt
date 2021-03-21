@@ -1,0 +1,25 @@
+My project is an electronic Art App controlled by Arduino Uno.
+
+The app connects to Arduino port. goes full screen, and starts drawing abstract geometrical figures based on parameters it reads from the Arduino. The user can can control what the app is drawing using potentiometers, switches, and a push button. Everything can be controlled by Arduino, there is no need for keyboard and mouse (after connecting to Arduino port). App can be used for meditation, or just to relax. Drawings can be saved in real time using push button.
+
+ 
+
+Push button 1 – clears app screen
+
+Push button 2 - save the screenshot of the drawing
+
+Switch 1 – Start/Stops drawing
+
+Switch 2 – controls line type. Line type can be an Arc (Bezier curve) or a straight line
+
+Potentiometer 1 – controls line width
+
+Potentiometer 2 – controls an angle for a drawing
+
+Potentiomenter 3 - controls drawing speed
+
+ 
+
+The app itself is written in C#.NET. To communicate between .NET and Arduino I used open source Sharer library, it is awesome and it can be found here:
+
+https://github.com/Rufus31415/Sharer
